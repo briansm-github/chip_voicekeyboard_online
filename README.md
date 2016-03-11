@@ -18,7 +18,7 @@ https://bbs.nextthing.co/t/compile-the-linux-kernel-for-chip-my-personal-howto/2
 
     sudo cp /boot/vmlinuz-4.3.0rd235+ /boot/zImage
 
-Also, need to disable the USB console as it conflicts otherwize
+Also, need to disable the USB console as it conflicts otherwise
 
     cd /etc/modprobe.d
     echo "blacklist g_serial" > g_serial_blacklist.conf 
@@ -27,4 +27,4 @@ The entry point is init_online, which can be run as an alternative init to syste
 
 The recording is done by alsa/go.c, which takes chunks of audio and dumps them in /tmp/a.raw. Then a shell script 'alsa/doit' picks up those chunks, converts the format to flac, uploads to google for transcription and dumps the transcription result to /tmp/a.txt
 
-From there, the typer/go.c program reads /tmp/a.txt and generats USB HID keystroke data into the /dev/hidg0 device file.
+From there, the typer/go.c program reads /tmp/a.txt and generates USB HID keystroke data into the /dev/hidg0 device file.
