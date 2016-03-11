@@ -1,0 +1,2 @@
+small C program to generate USB keycodes based on the
+text in /tmp/a.txt

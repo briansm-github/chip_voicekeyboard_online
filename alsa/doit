@@ -1,0 +1,22 @@
+#!/bin/bash
+# scan for /tmp/a.raw and generate stt data....
+while /bin/true; do
+#echo here
+if [ -f /tmp/a.raw ]; then
+#echo got /tmp/a.raw
+sleep 0.1
+# first, a.raw -> b.wav
+sox -r 16000 -e signed-integer -c 1 -b 16 /tmp/a.raw /tmp/b.wav
+flac -f /tmp/b.wav 2>/dev/null
+rm -f /tmp/b.txt
+# IP address in next line is www.google.co.uk, change it for your location
+# for extra speed.....
+wget  -U "Mozilla/5.0" --post-file="/tmp/b.flac" --header="Content-Type: audio/x-flac; rate=16000" -O /tmp/b.txt "http://216.58.208.195/speech-api/v2/recognize?lang=en-US&client=chromium&key=AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw" > /dev/null 2>&1
+cat /tmp/b.txt |  grep transcript | head -1 | cut -d\" -f8 > /tmp/a.txt
+cat /tmp/a.txt # for tracing
+../typer/go # generate USB keyboard data
+
+rm /tmp/a.raw
+fi
+sleep 0.1
+done

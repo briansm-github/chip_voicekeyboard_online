@@ -1,0 +1,19 @@
+#!/bin/bash
+# 'init' replacement script for online version of USB keyboard.
+/bin/mount -t proc proc /proc
+/bin/mount -t sysfs sysfs /sys
+/sbin/modprobe configfs
+/bin/sleep 0.1
+mount -t configfs configfs /sys/kernel/config
+/sbin/modprobe libcomposite
+/sbin/modprobe usb_f_hid
+/bin/sleep 0.1
+/sbin/modprobe 8723bs
+/sbin/ifdown wlan0
+/sbin/ifup wlan0
+
+/root/make_hid
+ i2cset -f -y 0 0x34 0x93 0x0 # turn LED off, system ready.
+cd /root/alsa
+./go > /dev/null 2>&1 &
+./doit
